@@ -293,7 +293,7 @@ bool unlinkPage() {
 }
 // END UNLINK
 
-// 6 - CLOSE NETWORK
+// 6 - CLOSE NETWORK  --- This is not ready
 bool closeNetwork() {
   esp8266Module.println(F("AT+CWQAP"));
   delay(5000);
@@ -311,7 +311,7 @@ bool closeNetwork() {
 }
 // END CLOSE NETWORK
 
-// 7 - FIND WIFI NETWORKS
+// 7 - FIND WIFI NETWORKS  --- This is not ready
 bool findWifiNetworks() {
   esp8266Module.println("AT+CWJAP");
   delay(15000);
@@ -348,7 +348,7 @@ String splitToVal(String inputString, String delimiter, String endChar) {
 }
 // END SPLIT UP STRINGS
 
-// SPLIT UP STRINGS
+// SPLIT UP STRINGS --- This is not ready
 String splitWifi(String inputWifi) {
   int firstListItem = inputWifi.indexOf("+CWLAP:(");
   int secondListItem = inputWifi.indexOf("item", firstListItem + 1 );
