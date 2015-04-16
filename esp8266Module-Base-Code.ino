@@ -79,10 +79,12 @@ void runEsp8266(String website, String page) {
     case 3:    // 3 If not connected connect to network
       Serial.println("TRYING connectToWifi");
       connectToWifi();
+      //connectToWifi("networkIdetifier", "networkPassword");
       break;
     case 4:    // 4 request page from server
       Serial.println("TRYING getPage");
       getPage(website, page);
+      //getPage(website, page, "?num=", "3", "&num2=", "2000");
       break;
     case 5:    // 5 unlink from server after request
       Serial.println("TRYING unlinkPage");
@@ -186,7 +188,7 @@ bool connectToWifi() {
     return false;
   }
 }
-
+// optional function that accepts the network ID and password as variables
 bool connectToWifi(String networkId, String networkPassword) {
   String cmd = F("AT+CWJAP=\"");
   cmd += networkId;
@@ -225,20 +227,84 @@ bool getPage(String website, String page) {
   }
   cmd =  "GET ";
   cmd += page;
-  cmd += "?num=1";  //construct http GET request
+  cmd += "?num=1";  //construct the http GET request
   cmd += " HTTP/1.0\r\n";
   cmd += "Host:";
   cmd += website;
-  cmd += "\r\n\r\n";        //test file on my web
-  Serial.println(cmd);  //a debug message
+  cmd += "\r\n\r\n";        
+  Serial.println(cmd);  
   esp8266Module.print("AT+CIPSEND=");
   esp8266Module.println(cmd.length());
   Serial.println(cmd.length());
 
-  if (esp8266Module.find(">"))   //prompt offered by esp8266
+  if (esp8266Module.find(">"))  
   {
-    Serial.println("found > prompt - issuing GET request");  //a debug message
-    esp8266Module.println(cmd);  //this is our http GET request
+    Serial.println("found > prompt - issuing GET request");  
+    esp8266Module.println(cmd); 
+  }
+  else
+  {
+    wifiStatus = 5;
+    Serial.println("No '>' prompt received after AT+CPISEND");
+    val1 = F("Failed request, retrying...");
+    return false;
+  }
+
+  while (esp8266Module.available() > 0)
+  {
+    esp8266Module.read();
+  }
+
+  if (esp8266Module.find("*")) {
+    String tempMsg = esp8266Module.readStringUntil('\n');
+    val2 = splitToVal(tempMsg, "@", "|");
+    val3 = splitToVal(tempMsg, "+", "@");
+    String piecetemp = splitToVal(tempMsg, "|", "$");
+    int peice = piecetemp.toInt();
+    Serial.println(val2);
+    Serial.println(val3);
+    Serial.println(piecetemp);
+    wifiStatus = 5;
+    return true;
+  }
+  else {
+    wifiStatus = 5;
+    return false;
+  }
+
+}
+
+// optional getPage function that accepts user variables
+bool getPage(String website, String page, String urlVariableName1, String variable1, String urlVariableName2, String variable2) {
+  String cmd = F("AT+CIPSTART=\"TCP\",\"");
+  cmd += website;
+  cmd += F("\",80");
+  esp8266Module.println(cmd);
+  delay(5000);
+  if (esp8266Module.find("Linked"))
+  {
+    Serial.print("Connected to server");
+
+  }
+  cmd =  "GET ";
+  cmd += page;
+  cmd += urlVariableName1;  // something like ?num=
+  cmd += variable1;
+  cmd += urlVariableName2;  // something like &num2=
+  cmd += variable2;
+  cmd += " HTTP/1.0\r\n";
+  cmd += "Host:";
+  cmd += website;
+  cmd += "\r\n\r\n";        
+  Serial.println(cmd); 
+  esp8266Module.print("AT+CIPSEND=");
+  esp8266Module.println(cmd.length());
+  Serial.println(cmd.length());
+
+  if (esp8266Module.find(">"))
+  {
+    Serial.println("found > prompt - issuing GET request");
+    esp8266Module.println(cmd);  
   }
   else
   {
