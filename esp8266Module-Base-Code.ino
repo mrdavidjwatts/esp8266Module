@@ -423,3 +423,15 @@ String splitWifi(String inputWifi) {
  
 }
 // END SPLIT UP STRINGS
+
+// FLOAT TO STRING
+
+String floatToString(float inputFloat){
+char CharBuffer[10];  
+dtostrf(inputFloat,1,2,CharBuffer);
+String floatString = String(CharBuffer);  
+return floatString;
+}
+// END FLOAT TO STRING
+
+
