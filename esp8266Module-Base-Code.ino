@@ -8,8 +8,8 @@ U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// Display which does not send AC
 SoftwareSerial esp8266Module(10, 11); // RX, TX
 
 // GLOBALS
-String network = "BTHub5-SH29";
-String password = "48a52a52e4";
+String network = "---";
+String password = "---";
 String weatherCode = "2644668"; // used to grab the weather from the BBC RSS feed - Pull it from the BBC weather URL for your country/city example:http://www.bbc.co.uk/weather/2644668
 bool breakOut = false;
 int wifiStatus = 1;
