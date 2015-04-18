@@ -72,9 +72,9 @@ echo date("H:i:s");
 echo "|";
 echo $symbol;
 echo "$";
-print_r ($exploded[2]);
+print_r ($exploded[2]); // weather description
 echo "^";
-print_r($exploded[3]);
+print_r($exploded[3]); // weather temperature
 
 echo "~";
 echo "\n";
