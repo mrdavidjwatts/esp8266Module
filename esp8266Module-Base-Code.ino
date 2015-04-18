@@ -8,16 +8,18 @@ U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// Display which does not send AC
 SoftwareSerial esp8266Module(10, 11); // RX, TX
 
 // GLOBALS
-String network = "---";
-String password = "---";
+String network = "BTHub5-SH29";
+String password = "48a52a52e4";
+String weatherCode = "2644668"; // used to grab the weather from the BBC RSS feed - Pull it from the BBC weather URL for your country/city example:http://www.bbc.co.uk/weather/2644668
 bool breakOut = false;
-int wifiStatus = 0;
+int wifiStatus = 1;
 
 // Temp variables
 String val1 = "----------";
 String val2 = "----------";
 String val3 = "----------";
 String val4 = "----------";
+String val5 = "----------";
 int loopNum = 0;
 void setup() {
   // Serial Start
@@ -46,10 +48,14 @@ void displayShow() {
   u8g.setPrintPos(0, 18);
   u8g.print(val1);
   u8g.setFont(u8g_font_5x8);
-  u8g.setPrintPos(0, 50);
+  u8g.setPrintPos(0, 30);
   u8g.print(val2);
-  u8g.setPrintPos(0, 60);
+  u8g.setPrintPos(0, 40);
   u8g.print(val3);
+  u8g.setPrintPos(0, 50);
+  u8g.print(val4);
+  u8g.setPrintPos(0, 60);
+  u8g.print(val5);
 
 }
 // END DISPLAY
@@ -98,7 +104,7 @@ void runEsp8266(String website, String page) {
 // 0 - RESET
 bool esp8266Reset() {
   esp8266Module.println(F("AT+RST"));
-  delay(5000);
+  delay(7000);
   if (esp8266Module.find("OK"))
   {
     val1 = F("-RESET-");
@@ -228,6 +234,8 @@ bool getPage(String website, String page) {
   cmd =  "GET ";
   cmd += page;
   cmd += "?num=1";  //construct the http GET request
+  cmd += "&weather=";
+  cmd += weatherCode;
   cmd += " HTTP/1.0\r\n";
   cmd += "Host:";
   cmd += website;
@@ -259,10 +267,14 @@ bool getPage(String website, String page) {
     String tempMsg = esp8266Module.readStringUntil('\n');
     val2 = splitToVal(tempMsg, "@", "|");
     val3 = splitToVal(tempMsg, "+", "@");
-    String piecetemp = splitToVal(tempMsg, "|", "$");
+   String piecetemp = splitToVal(tempMsg, "|", "$");
+    val5 = splitToVal(tempMsg, "$", "^");
+    val4 = splitToVal(tempMsg, "^", "~");
     int peice = piecetemp.toInt();
     Serial.println(val2);
     Serial.println(val3);
+    Serial.println(val4);
+    Serial.println(val5);
     Serial.println(piecetemp);
     wifiStatus = 5;
     return true;
@@ -324,9 +336,13 @@ bool getPage(String website, String page, String urlVariableName1, String variab
     val2 = splitToVal(tempMsg, "@", "|");
     val3 = splitToVal(tempMsg, "+", "@");
     String piecetemp = splitToVal(tempMsg, "|", "$");
+    val4 = splitToVal(tempMsg, "$", "^");
+    val5 = splitToVal(tempMsg, "^", "~");
     int peice = piecetemp.toInt();
     Serial.println(val2);
     Serial.println(val3);
+    Serial.println(val4);
+    Serial.println(val5);
     Serial.println(piecetemp);
     wifiStatus = 5;
     return true;
@@ -433,5 +449,4 @@ String floatString = String(CharBuffer);
 return floatString;
 }
 // END FLOAT TO STRING
-
 
