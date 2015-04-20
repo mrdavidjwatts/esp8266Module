@@ -10,8 +10,7 @@ SoftwareSerial esp8266Module(10, 11); // RX, TX
 // GLOBALS
 String network = "---";
 String password = "---";
-String weatherCode = "2644668";
-bool breakOut = false;
+String weatherCode = "2644668"; // Leicester default
 int wifiStatus = 1;
 
 // Temp variables
