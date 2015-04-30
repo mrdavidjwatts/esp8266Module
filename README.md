@@ -5,6 +5,7 @@ It is a pretty simple setup and will stream line the process of sending and reci
 
 Planned updates:
 
-- Functions to show the avaiable wifi list and ability to choose by number and enter a password
-- Replacing the delays with a milis timeout // I am not sure how long this will take or even if it will be reliable
+- (Half way there) Functions to show the avaiable wifi list and ability to choose by number and enter a password
+- (Half way there, currently per function) Replacing the delays with a milis timeout // I am not sure how long this will take or even if it will be reliable
+- (On it like a bonnet) Replacing switch statement to use ENUM to make the wifiStates more readable
 - Suggestions?
