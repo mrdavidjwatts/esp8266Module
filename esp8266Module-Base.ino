@@ -2,7 +2,7 @@
 
 #include "U8glib.h"
 #include <SoftwareSerial.h>
-
+#include <EEPROM.h>
 // OBJECTS
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// Display which does not send AC
 SoftwareSerial esp8266Module(10, 11); // RX, TX
