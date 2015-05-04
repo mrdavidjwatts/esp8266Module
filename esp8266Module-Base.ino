@@ -449,3 +449,144 @@ return floatString;
 }
 // END FLOAT TO STRING
 
+// START WRITE WIFI DETAILS TO EEPROM
+boolean writeEPNetworkAndPassword(String inputNetwork, String inputPassword){
+	
+	int lengthNetwork = inputNetwork.length();
+	int lengthPassword = inputPassword.length();
+	int nextAddress = 1;
+	
+	EEPROM.write(nextAddress, lengthNetwork);
+	Serial.print(nextAddress);
+	Serial.print(lengthNetwork);
+	Serial.println();
+	nextAddress++;
+	for(int i = 0; i < lengthNetwork; i++){
+
+		char networkChar = inputNetwork.charAt(i);
+		EEPROM.write(nextAddress, networkChar);
+		Serial.print(nextAddress);
+		Serial.print(networkChar);
+		Serial.println();
+		nextAddress++;
+	}
+
+	EEPROM.write(nextAddress, lengthPassword);
+	Serial.print(nextAddress);
+	Serial.print(lengthPassword);
+	Serial.println();
+	nextAddress++;
+	for(int i = 0; i < lengthPassword; i++){
+
+		char passwordChar = inputPassword.charAt(i);
+		EEPROM.write(nextAddress, passwordChar);
+		Serial.print(nextAddress);
+		Serial.print(passwordChar);
+		Serial.println();
+		nextAddress++;
+	}
+	EEPROM.write(0, 1);
+	
+	if(EEPROM.read(0) == 1){
+		return true;
+	}
+	else {
+		return false;
+	}
+	
+}
+// END WRITE WIFI DETAILS TO EEPROM
+
+// START READ DETAILS FROM EEPROM
+bool readEPNetworkAndPassword(){
+	network = "";
+	password = "";
+	int lengthNetwork = EEPROM.read(1);
+	int nextAddress = 2;
+	for(int i = 0; i < lengthNetwork; i++){
+		
+		char networkChar = EEPROM.read(nextAddress);
+		network += networkChar;
+		nextAddress++;
+		
+		
+	}
+	int lengthPassword = EEPROM.read(nextAddress);
+	nextAddress++;
+	for(int i = 0; i < lengthPassword; i++){
+
+		char passwordChar = EEPROM.read(nextAddress);
+		password += passwordChar;
+		nextAddress++;
+	}
+}
+// END READ DETAILS FROM EEPROM
+
+// START FIND WIFI NETWORKS
+bool findWifiNetworks() {
+	breakOut = true;
+	
+	char character;
+	if (runningFunctionNow == 1 && wifiNumber < 12) {
+		if (esp8266Module.available() > 0) {
+			character = esp8266Module.read();
+
+			if(!foundWifi){
+				if (character == ':') {
+					foundWifi = true;
+				}
+			}
+			else{
+				if (character == '\n') {
+					DiscoveredNetworks[wifiNumber] = splitWifi(tempWifi);
+					Serial.println(DiscoveredNetworks[wifiNumber]);
+					Serial.println(foundNetworks);
+					tempWifi = "";
+					wifiNumber++;
+					foundNetworks++;
+					foundWifi = false;
+				}
+				else {
+					tempWifi.concat(character);
+				}
+			}
+		}
+
+		
+	}
+	else {
+		if (wifiNumber < 1 && runningFunctionNow == 0) {
+			runningFunctionNow = 1;
+			Serial.println("running");
+			esp8266Module.println("AT+CWLAP");
+		}
+		
+	}
+	if((millis() - functionStartTime) > timeout){
+		if(wifiNumber > 0){
+			runningFunctionNow = 0;
+			breakOut = false;
+			selectedNetwork = 0;
+			functionStartTime = 0;
+			Serial.println(breakOut);
+			wifiNumber = 0;
+			foundWifi = false;
+			tempWifi = "";
+			digitalWrite(statusLED, LOW);
+			state = selectWifi;
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+}
+// END FIND WIFI NETWORKS
+
+// SPLIT UP STRINGS --- This is not ready
+String splitWifi(String inputWifi) {
+	int firstListItem = inputWifi.indexOf("\"");
+	int secondListItem = inputWifi.indexOf("\"", firstListItem + 1 );
+	return inputWifi.substring(firstListItem + 1, secondListItem);
+}
