@@ -1,4 +1,4 @@
-//ESP8266 code for modules that can communicate at 9600bps by David Watts
+//Arduino code for the ESP8226 Module running the 9.2.2 firmware at 9600bps by David Watts
 //youtube.com/mrdavidjwatts
 
 #include <EEPROM.h>
