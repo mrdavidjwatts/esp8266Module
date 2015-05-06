@@ -168,7 +168,7 @@ void displayShow() {
 		u8g.setFont(u8g_font_5x8);
 		u8g.setPrintPos(0, 10);
 		u8g.print(network);
-		u8g.setFont(u8g_font_helvB14);
+		u8g.setFont(u8g_font_8x13B);
 		u8g.setPrintPos(60, 30);
 		u8g.print(selectedChar);
 		u8g.setFont(u8g_font_5x8);
