@@ -18,3 +18,7 @@ Planned and completed updates:
 - (Half way there, currently per function) Replacing the delays with a milis timeout // I am not sure how long this will take or even if it will be reliable
 - (Finished) Replacing switch statement to use ENUM to make the WiFi States more readable
 - Suggestions?
+
+The code currently comes in at - 
+Sketch uses 23,426 bytes (72%) of program storage space. Maximum is 32,256 bytes.
+Global variables use 1,252 bytes (61%) of dynamic memory, leaving 796 bytes for local variables. Maximum is 2,048 bytes.
