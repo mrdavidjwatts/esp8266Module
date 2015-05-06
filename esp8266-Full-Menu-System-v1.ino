@@ -137,8 +137,8 @@ void displayShow() {
 			}
 			else
 			{
-				u8g.print("connecting to:");
-				u8g.setPrintPos(0, 32);
+				u8g.print("Connect to?");
+				u8g.setPrintPos(0, 36);
 				u8g.print(network);
 			}
 			
@@ -234,9 +234,20 @@ void menu(){
 				readEPNetworkAndPassword();
 			}
 			
-			if (network != "" && connected == false && password == "")
+			if (network != "" && connected == false)
 			{
-				state = enterPassword;
+				
+			if (password == ""){
+			state = enterPassword;	
+			}
+			else
+			{
+			connectToWifi();
+			}
+			}
+			
+			}
+				
 			}
 			
 		}
