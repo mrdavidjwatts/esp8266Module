@@ -828,3 +828,14 @@ String splitToVal(String inputString, String delimiter, String endChar) {
 	return tempString;
 }
 // END SPLIT UP STRINGS
+
+
+// FLOAT TO STRING, IF YOU FANCY SENDING FLOATS OVER THE WEB
+
+String floatToString(float inputFloat){
+char CharBuffer[10];  
+dtostrf(inputFloat,1,2,CharBuffer);
+String floatString = String(CharBuffer);  
+return floatString;
+}
+// END FLOAT TO STRING
