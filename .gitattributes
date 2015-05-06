@@ -1,1 +1,4 @@
-text eol=crlf
+# CRLF line endings on checkout
+*.ino text eol=crlf
+*.php text eol=crlf
+*.txt text eol=crlf
