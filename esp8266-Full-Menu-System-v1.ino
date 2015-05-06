@@ -205,6 +205,7 @@ void displayShow() {
 void menu(){
 	switch (state) {
 		case main:
+		wifiStatus = 0;
 		if(digitalRead(7) == HIGH){
 			if(cursorPos < 3){
 				cursorPos++;
@@ -612,6 +613,9 @@ bool connectToWifi() {
 			runningValues[1] = F("CONNECTED TO WIFI");
 			wifiStatus = 4;
 			return true;
+			if(state == connect){
+			state = main;
+		}
 		}
 		else
 		{
@@ -637,6 +641,9 @@ bool connectToWifi(String networkId, String networkPassword) {
 		runningValues[1] = F("CONNECTED TO WIFI");
 		wifiStatus = 4;
 		return true;
+		if(state == connect){
+			state = main;
+		}
 	}
 	else
 	{
