@@ -2,7 +2,7 @@
 //youtube.com/mrdavidjwatts
 
 #include <EEPROM.h>
-#include "U8glib.h"
+#include "U8glib.h" // v.1.17
 #include "SoftwareSerial.h"
 
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// Display which does not send AC
