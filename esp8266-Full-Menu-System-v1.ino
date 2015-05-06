@@ -1,13 +1,10 @@
 //Arduino code for the ESP8226 Module running the 9.2.2 firmware at 9600bps by David Watts
 //youtube.com/mrdavidjwatts
-
 #include <EEPROM.h>
 #include "U8glib.h" // v.1.17
 #include "SoftwareSerial.h"
-
 U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_NONE);	// Display which does not send AC
 SoftwareSerial esp8266Module(10, 11); // RX, TX
-
 // Misc variables
 int statusLED = 13;
 // Store network credentials variables
@@ -42,7 +39,6 @@ enum States {
 	selectWifi,
 	enterPassword,
 	run
-	
 };
 States state = main;
 int runningFunctionNow = 0;
@@ -58,7 +54,6 @@ int foundNetworks = 0;
 bool foundWifi  = false;
 unsigned long functionStartTime; //used to store the time a function started
 const unsigned long timeout = 8000; //the timeout/maximum time in milliseconds
-
 
 void setup() {
 	delay(5000);
@@ -83,7 +78,6 @@ void loop() {
 		do {
 			displayShow();
 		} while ( u8g.nextPage() );
-		
 	}
 	// End Display Stuff
 	
@@ -96,8 +90,6 @@ void loop() {
 		runEsp8266("www.davidjwatts.com", "/arduino/esp8266.php");
 	}
 	// end flying ESP8266
-	
-
 }
 
 // Our display function, display and font dependant, feel free to mess around here
@@ -141,7 +133,6 @@ void displayShow() {
 				u8g.setPrintPos(0, 36);
 				u8g.print(network);
 			}
-			
 		}
 		break;
 		case findWifi:
@@ -272,7 +263,6 @@ void menu(){
 		break;
 		case selectWifi:
 		if(digitalRead(7) == HIGH){
-			//Serial.println(cursorPos);
 			if(cursorPos < foundNetworks-1){
 				cursorPos++;
 			}
@@ -334,9 +324,6 @@ bool writeEPNetworkAndPassword(String inputNetwork, String inputPassword){
 	int nextAddress = 1;
 	
 	EEPROM.write(nextAddress, lengthNetwork);
-	//Serial.print(nextAddress);
-	//Serial.print(lengthNetwork);
-	//Serial.println();
 	nextAddress++;
 	for(int i = 0; i < lengthNetwork; i++){
 
@@ -383,17 +370,13 @@ bool readEPNetworkAndPassword(){
 	int lengthNetwork = EEPROM.read(1);
 	int nextAddress = 2;
 	for(int i = 0; i < lengthNetwork; i++){
-		
 		char networkChar = EEPROM.read(nextAddress);
 		network += networkChar;
 		nextAddress++;
-		
-		
 	}
 	int lengthPassword = EEPROM.read(nextAddress);
 	nextAddress++;
 	for(int i = 0; i < lengthPassword; i++){
-
 		char passwordChar = EEPROM.read(nextAddress);
 		password += passwordChar;
 		nextAddress++;
@@ -409,8 +392,6 @@ bool findWifiNetworks() {
 	if (runningFunctionNow == 1 && wifiNumber < 16) {
 		if (esp8266Module.available() > 0) {
 			character = esp8266Module.read();
-			
-			
 			if(!foundWifi){
 				//Serial.write(temp);
 				if (character == ':') {
@@ -438,7 +419,6 @@ bool findWifiNetworks() {
 			runningFunctionNow = 1;
 			esp8266Module.println(F("AT+CWLAP"));
 		}
-		
 	}
 	if((millis() - functionStartTime) > timeout){
 		if(wifiNumber > 0){
@@ -468,7 +448,6 @@ String splitWifi(String inputWifi) {
 	int firstListItem = inputWifi.indexOf("\"");
 	int secondListItem = inputWifi.indexOf("\"", firstListItem + 1 );
 	return inputWifi.substring(firstListItem + 1, secondListItem);
-
 }
 // END SPLIT UP STRINGS
 
@@ -496,8 +475,8 @@ void runEsp8266(String website, String page) {
 		break;
 		case 3:    // 3 If not connected connect to network
 		Serial.println(F("TRYING connectToWifi"));
-		//connectToWifi();
-		connectToWifi("---", "---");
+		connectToWifi(); // use this one to only use the find networks method
+		//connectToWifi("---", "---"); use this one to hardcode initial details
 		break;
 		case 4:    // 4 request page from server
 		Serial.println(F("TRYING getPage"));
