@@ -124,7 +124,7 @@ void displayShow() {
 		u8g.setFont(u8g_font_5x8);
 		u8g.setPrintPos(0, 26);
 		if(network == ""){
-			u8g.print("No stored credentials");
+			u8g.print("No credentials");
 		}
 		else
 		{
@@ -143,7 +143,7 @@ void displayShow() {
 		case findWifi:
 		u8g.setFont(u8g_font_8x13B);
 		u8g.setPrintPos(0, 13);
-		u8g.print("Finding Networks");
+		u8g.print("Finding Network");
 		u8g.setFont(u8g_font_5x8);
 		u8g.setPrintPos(0, 26);
 		//u8g.print("Be patient...");
@@ -467,7 +467,7 @@ bool changeWifiMode()
 	delay(5000);
 	if (esp8266Module.find("3"))
 	{
-		runningValues[1] = "Wifi Mode is 3";
+		runningValues[1] = "Mode is 3";
 		wifiStatus = 2;
 		return true;
 	}
@@ -477,7 +477,7 @@ bool changeWifiMode()
 		delay(5000);
 		if (esp8266Module.find("no change") || esp8266Module.find("OK"))
 		{
-			runningValues[1]= "Wifi Mode is 3";
+			runningValues[1]= "Mode is 3";
 			wifiStatus = 2;
 			return true;
 		}
@@ -533,7 +533,7 @@ bool connectToWifi() {
 		{
 			//Serial.println(F("CONNECTED TO WIFI"));
 
-			runningValues[1] = "CONNECTED TO WIFI";
+			runningValues[1] = "CONNECTED";
 			wifiStatus = 4;
 			return true;
 			if(state == connect){
@@ -561,7 +561,7 @@ bool connectToWifi(String networkId, String networkPassword) {
 	{
 		//Serial.println(F("CONNECTED TO WIFI"));
 
-		runningValues[1] = "CONNECTED TO WIFI";
+		runningValues[1] = "CONNECTED";
 		wifiStatus = 4;
 		return true;
 		if(state == connect){
@@ -614,7 +614,7 @@ bool getPage(String website, String page) {
 	{
 		wifiStatus = 5;
 		//Serial.println(F("No '>' prompt received after AT+CPISEND"));
-		runningValues[1] = F("Failed request, retrying...");
+		runningValues[1] = F("Failed request");
 		return false;
 	}
 
@@ -666,7 +666,7 @@ bool closeNetwork() {
 	delay(5000);
 	if (esp8266Module.find("OK"))
 	{
-		runningValues[1] = F("NETWORK DISCONNECTED");
+		runningValues[1] = "DISCONNECTED";
 		wifiStatus = 0;
 		return true;
 	}
