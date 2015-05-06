@@ -488,7 +488,7 @@ void runEsp8266(String website, String page) {
 		case 3:    // 3 If not connected connect to network
 		Serial.println(F("TRYING connectToWifi"));
 		//connectToWifi();
-		connectToWifi("BTHub5-SH29", "48a52a52e4");
+		connectToWifi("---", "---");
 		break;
 		case 4:    // 4 request page from server
 		Serial.println(F("TRYING getPage"));
