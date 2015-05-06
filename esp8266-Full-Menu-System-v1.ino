@@ -248,10 +248,7 @@ void menu(){
 			}
 			
 			}
-				
-			}
-			
-		}
+
 		
 		if(digitalRead(4) == HIGH){
 			state = main;
