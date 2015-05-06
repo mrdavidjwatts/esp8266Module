@@ -17,7 +17,7 @@ int epPasswordStart;
 int colNum = 1;
 int rowNum = 1;
 char selectedChar;
-char lowercase[4][26] = {
+char allChars[4][26] = {
 	{'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'},
 	{'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'},
 	{32,'!','"','#','$','%','&','\'','(',')','*','+','`','-','_','.','\\','/',']','[','^','}','{','|','~',':'},
@@ -292,7 +292,7 @@ void menu(){
 		}
 		break;
 		case enterPassword:
-		selectedChar = lowercase[rowNum][colNum];
+		selectedChar = allChars[rowNum][colNum];
 		if(digitalRead(7) == HIGH){
 			if(rowNum < 3){
 				rowNum++;
