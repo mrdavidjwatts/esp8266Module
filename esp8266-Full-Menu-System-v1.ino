@@ -823,7 +823,7 @@ bool whatsMyIp() {
 	delay(5000);
 	if (esp8266Module.find("."))
 	{
-		ipAddress = esp8266Module.readStringU
+		ipAddress = esp8266Module.readStringUntil('\n');
 	}
 	else
 	{
