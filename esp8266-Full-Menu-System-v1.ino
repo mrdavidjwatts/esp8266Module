@@ -29,6 +29,7 @@ char* runningTitles[] = {"Running","Status:", "Network:","Time:", "Date:", "Loop
 int loopNum = 0; // how many successful requests have we made?
 String runningValues[7] = {"","","","","","",""};
 String RecData; // Data returned
+String ipAddress;
 // Program flow variables
 bool connected = false;
 bool breakOut = false;
@@ -769,7 +770,7 @@ bool unlinkPage() {
 }
 // END UNLINK
 
-// 6 - CLOSE NETWORK  --- This is not ready
+// 6 - CLOSE NETWORK  --- Probably ready...
 bool closeNetwork() {
 	esp8266Module.println(F("AT+CWQAP"));
 	delay(5000);
@@ -815,3 +816,18 @@ String floatString = String(CharBuffer);
 return floatString;
 }
 // END FLOAT TO STRING
+
+// START FINDING IP ADDRESS
+bool whatsMyIp() { 
+	esp8266Module.println(F("AT+CIFSR"));
+	delay(5000);
+	if (esp8266Module.find("."))
+	{
+		ipAddress = esp8266Module.readStringU
+	}
+	else
+	{
+		return false;
+	}
+}
+// END FINDING IP ADDRESS
